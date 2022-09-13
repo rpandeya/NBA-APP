@@ -1,0 +1,6 @@
+DEF Handoff PPP rank,DEF Handoff FREQ rank,DEF Isolation PPP rank,DEF Isolation FREQ rank,DEF OffScreen PPP rank,DEF OffScreen FREQ rank,DEF Postup PPP rank,DEF Postup FREQ rank,DEF PRBallHandler PPP rank,DEF PRBallHandler FREQ rank,DEF PRRollman PPP rank,DEF PRRollman FREQ rank,DEF Spotup PPP rank,DEF Spotup FREQ rank,FREQ 3 Pointers rank,PLUSMINUS 3 Pointers rank,FREQ Less Than 6Ft rank,PLUSMINUS Less Than 6Ft rank,FREQ Less Than 10Ft rank,PLUSMINUS Less Than 10Ft rank,PCT_LOOSE_BALLS_RECOVERED_DEF rank,REB_CONTEST_PCT rank,AVG_REB_DIST rank,DIST_MILES_DEF rank,AVG_SPEED_DEF rank,DEFLECTIONS Per36 rank,Clusters rank
+4.0,5.0,3.0,2.0,5.0,5.0,3.0,2.0,3.0,5.0,5.0,2.0,3.0,4.0,5.0,2.0,1.0,4.0,1.0,4.0,5.0,1.0,4.0,5.0,4.0,4.0,1.0
+2.0,2.0,5.0,4.0,2.0,2.0,5.0,5.0,2.0,2.0,4.0,5.0,5.0,2.0,2.0,4.0,5.0,1.0,5.0,1.0,2.0,4.0,2.0,3.0,1.0,3.0,2.0
+3.0,4.0,1.0,1.0,3.0,4.0,1.0,1.0,5.0,4.0,1.0,1.0,4.0,5.0,4.0,1.0,2.0,5.0,2.0,5.0,4.0,2.0,5.0,2.0,5.0,5.0,3.0
+1.0,1.0,4.0,3.0,1.0,1.0,2.0,3.0,1.0,1.0,2.0,4.0,1.0,1.0,1.0,5.0,4.0,3.0,4.0,3.0,1.0,5.0,1.0,1.0,2.0,1.0,4.0
+5.0,3.0,2.0,5.0,4.0,3.0,4.0,4.0,4.0,3.0,3.0,3.0,2.0,3.0,3.0,3.0,3.0,2.0,3.0,2.0,3.0,3.0,3.0,4.0,3.0,2.0,5.0
