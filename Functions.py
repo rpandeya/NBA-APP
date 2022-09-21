@@ -139,7 +139,7 @@ def slice_data(player):
 
 
 
-def draw_bar(player_data,cluster_data,league_data, col_list,perc_col_list, player,league_percentile= None,total_cluster=None, league = True, perc= False):
+def draw_bar(player_data,cluster_data,league_data, col_list,perc_col_list, player,league_percentile= None,total_cluster=None, league = True, perc= False, title = ''):
     
     
         
@@ -215,6 +215,9 @@ def draw_bar(player_data,cluster_data,league_data, col_list,perc_col_list, playe
             
             
         ))
+    if title != '':
+        fig.update_layout(title = dict(text = title))
+        
     return fig
 
                     
