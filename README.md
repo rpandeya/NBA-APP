@@ -1,5 +1,5 @@
 # NBA-APP
-
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rpandeya-nba-app-home-kxz4f4.streamlitapp.com/Offence)
 Welcome to my NBA app! 
 
 Many datasets here are unimportant for the final app, but were crucial as intermediate steps in the data collection and cleaning processes. 
