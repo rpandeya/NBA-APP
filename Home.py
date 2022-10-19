@@ -19,13 +19,13 @@ st.set_page_config(layout='wide')
 
 st.title('NBA Player Analysis')
 
-st.markdown('Welcome! This app is designed to show detailed information about an NBA player of your choice.')
+st.markdown('Welcome! This app is designed to show detailed information about an NBA player of your choice from 2021-2022.')
 
 st.markdown('Navigate to either Offence or Defence and select an NBA player to begin!')
 
 st.markdown('For a description of an archetype, go to the page entitled \'Archetypes\'')
 
-st.markdown('Check out the \'About\' page for a detailed of this App and its functionalities.')
+st.markdown('Check out the \'About\' page for details of this App and its functionalities.')
 
         
 

@@ -175,6 +175,34 @@ def distance(szn_year):
     frame['Season'] = szn_year
     return frame
 
+def dreb_tracking(szn_year):
+    # Under the Header tab, select general and copy the first part of the request URL
+    #Header Tab, under "Query String Parameter" subsection
+    url = f'https://stats.nba.com/stats/leaguedashptstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&Height=&LastNGames=0&LeagueID=00&Location=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PerMode=PerGame&PlayerExperience=&PlayerOrTeam=Player&PlayerPosition=&PtMeasureType=Rebounding&Season={szn_year}&SeasonSegment=&SeasonType=Regular Season&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight='   
+    # Header tab, under “Request Headers” subsection
+    header = {
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-CA,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
+    'Host': 'stats.nba.com',
+    'Origin': 'https://www.nba.com',
+    'Referer': 'https://www.nba.com/',
+
+    'Sec-Fetch-Dest': 'empty',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'same-site',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0',
+    'x-nba-stats-origin': 'stats',
+    'x-nba-stats-token': 'true'}
+    #Using Request library to get the data
+    response = requests.get(url, headers=header)
+    response_json = response.json()
+    frame = pd.DataFrame(response_json['resultSets'][0]['rowSet'])
+    frame.columns = response_json['resultSets'][0]['headers']
+    frame['Season'] = szn_year
+    return frame
+
+
 
 def shot_tracking(szn_year, category):
     
@@ -299,6 +327,19 @@ twos_breakdown['PLAYER_NAME'] = player_names
 
 twos_breakdown['TEAM_ABBREVIATION'] = team_abb
 
+
+full_shot_pass = passing
+
+full_shot_pass = passing.drop(['TEAM_ID', 'GP', 'MIN', 'PLAYER_ID', 'W', 'L'], axis=1)
+
+for df in (drives, pullup, catch_shoot):
+    full_shot_pass = pd.merge(full_shot_pass, df, how = 'inner', on = ['PLAYER_NAME', 'Season', 'TEAM_ABBREVIATION'])
+full_shot_pass = pd.merge(full_shot_pass, twos_breakdown, on = ['PLAYER_NAME',  'TEAM_ABBREVIATION'] ,how='inner')
+full_shot_pass = pd.merge(full_shot_pass, player_basic, how='inner', on = ['PLAYER_NAME',  'TEAM_ABBREVIATION'])
+full_shot_pass = pd.merge(full_shot_pass, player_advanced, how='inner', on = ['PLAYER_NAME',  'TEAM_ABBREVIATION'])
+
+
+
 current_offence = synergy_data(playtypes, 'offensive', '2022-23')
 
 for i in current_offence.keys():
@@ -319,5 +360,32 @@ poss_cols = [i + ' POSS' for i in current_offence.keys()]
 all_offence['Total Poss'] = all_offence[poss_cols].sum(axis=1)
 all_offence = all_offence.drop(poss_cols, axis='columns')
 
-all_offence = pd.merge(all_offence, hustle_df_current[['PLAYER_NAME',  "MIN", "Season", "TEAM_ABBREVIATION"]], on = ['PLAYER_NAME', 'Season', "TEAM_ABBREVIATION"], how='inner')
+
+all_offence = pd.merge(all_offence, hustle_df_current[['PLAYER_NAME',  "MIN", "Season", "TEAM_ABBREVIATION"]], on = ['PLAYER_NAME', 'Season',"TEAM_ABBREVIATION"], how='inner')
+
+all_offence = pd.merge(all_offence, full_shot_pass, on = ['PLAYER_NAME', 'Season', 'TEAM_ABBREVIATION'], how='inner')
+
+all_offence = all_offence.fillna(0)
+
+all_offence = all_offence.drop_duplicates(['PLAYER_NAME', 'Season', 'TEAM_ABBREVIATION'])
+
+all_offence['POTENTIAL_AST FREQ'] = all_offence['POTENTIAL_AST']/all_offence['Total Poss']
+
+
+for area in ('Restricted Area', 'In The Paint (Non-RA)', 'Mid-Range'):
+    all_offence[area + ' FREQ'] = all_offence[area+ ' FGA']/all_offence['2PA']
+    all_offence = all_offence.drop(area+' FGA', axis=1)
+
+
+all_offence['3P FREQ'] = all_offence['FG3A']/all_offence['FGA']
+
+all_offence['Drives FREQ'] = all_offence['DRIVES']/all_offence['Total Poss']
+
+
+for area in ('PULL_UP', 'CATCH_SHOOT'):
+    all_offence[area + ' FREQ'] = all_offence[area+ '_FGA']/all_offence['FGA']
+    all_offence = all_offence.drop(area+'_FGA', axis=1)
+
+all_offence = all_offence.drop(['DRIVES', '2PA', 'FGA' ], axis=1)
+
 
